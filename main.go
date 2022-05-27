@@ -2,9 +2,7 @@ package main
 
 // curl --request GET 127.0.0.1:9000
 import (
-	//"fmt"
 	"rest-api/server"
-	//"net/http"
 	"os"
 	"os/signal"
 	"syscall"
