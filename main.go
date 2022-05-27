@@ -1,29 +1,22 @@
 package main
 
+// curl --request GET 127.0.0.1:9000
 import (
 	"fmt"
+	"rest-api/server"
 	"net/http"
+	"os"
+	"os/signal"
+	"syscall"
 )
 
 func main() {
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+	ctx := context.Background()
 
-		if r.Method != http.MethodGet {
-			w.WriteHeader(http.StatusMethodNotAllowed)
-			fmt.Fprintf(w, "Method not allowed\n")
-			return
-		}
-		fmt.Fprintf(w, "Hello there %s\n", "visitor")
-	})
+	serverDoneChan := make(chan os.Signal, 1)
+	signal.Notify(serverDoneChan, os.Interrupt, syscall.SIGTERM)
+	srv := server.New(":8080")
 
-	srv := http.Server{
-		Addr: ":9000",
-	}
-
-	err := srv.ListenAndServe()
-
-	if err != nil {
-		panic(err)
-	}
-
+	go srv.ListenAndServe()
+	serverDoneChan <- srv.Shutdown(ctx)
 }
