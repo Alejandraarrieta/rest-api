@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"net/http"
 	"encoding/json"
+	"rest-api/models"
 )
+var products[]*Product = []*Product{}
 
 func index(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodGet {
