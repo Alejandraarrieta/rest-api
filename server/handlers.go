@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"net/http"
 	"encoding/json"
-	"rest-api/models"
+	m"rest-api/models"
 )
-var products[]*Product = []*Product{}
+var products[]*m.Product = []*m.Product{}
 
 func index(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodGet {
@@ -24,7 +24,7 @@ func getProduct(w http.ResponseWriter, r *http.Request) {
 }
 
 func addProduct(w http.ResponseWriter, r *http.Request) {
-	product := &Product{}
+	product := &m.Product{}
 	err := json.NewDecoder(r.Body).Decode(product)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)

@@ -2,12 +2,14 @@ package main
 
 // curl --request GET 127.0.0.1:9000
 import (
-	"fmt"
+	//"fmt"
 	"rest-api/server"
-	"net/http"
+	//"net/http"
 	"os"
 	"os/signal"
 	"syscall"
+	"context"
+	"log"
 )
 
 func main() {
@@ -18,5 +20,8 @@ func main() {
 	srv := server.New(":8080")
 
 	go srv.ListenAndServe()
-	serverDoneChan <- srv.Shutdown(ctx)
+	log.Printf("Server started")
+	<- serverDoneChan 
+	srv.Shutdown(ctx)
+	log.Printf("Server stopped")
 }
